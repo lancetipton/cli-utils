@@ -1,0 +1,37 @@
+{
+  "name": "@keg-hub/cli-utils",
+  "version": "0.0.1",
+  "description": "Utility methods for writing Custom Tasks consumed by the Keg-CLI",
+  "main": "index.js",
+  "repository": "https://github.com/lancetipton/cli-uilts",
+  "author": "Lance Tipton",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "configs/",
+    "index.js",
+    "src/"
+  ],
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "scripts": {
+    "build": "exit 0",
+    "clean:full": "yarn clean && yarn install",
+    "clean": "yarn clean:lock && yarn cache clean && rimraf node_modules && npm cache clean --force",
+    "clean:lock": "rimraf ./yarn.lock && rimraf ./package.lock",
+    "format": "exit 0",
+    "test": "NODE_ENV=test jest --no-cache --verbose"
+  },
+  "dependencies": {
+    "@keg-hub/args-parse": "6.2.1",
+    "@keg-hub/ask-it": "0.0.1",
+    "@keg-hub/jsutils": "8.1.1",
+    "@keg-hub/spawn-cmd": "0.1.0",
+    "fs-extra": "9.0.1"
+  },
+  "devDependencies": {
+    "jest": "24.8.0",
+    "jest-cli": "24.8.0"
+  }
+}
