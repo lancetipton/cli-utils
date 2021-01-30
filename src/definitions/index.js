@@ -1,2 +1,0 @@
-// Stub
-module.exports = {}

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const Definitions = require('./definitions')
+const { getTaskDefinitions } = require('./tasks')
 const { argsParse } = require("@keg-hub/args-parse")
-const { findTask } = require('./utils/task/findTask')
-const { throwExitError } = require('./utils/error/throwExitError')
-const { getKegGlobalConfig } = require('./utils/task/getKegGlobalConfig')
+const { findTask } = require('./task/findTask')
+const { throwExitError } = require('./error/throwExitError')
+const { getKegGlobalConfig } = require('./task/getKegGlobalConfig')
 
 const defParams = { env: process.env.NODE_ENV || 'development' }
 
@@ -18,6 +18,7 @@ const defParams = { env: process.env.NODE_ENV || 'development' }
 const runTask = async globalConfig => {
   try {
     const args = process.argv.slice(2)
+    const Definitions = getTaskDefinitions()
     const { task, options } = findTask(Definitions, [...args])
 
     // Parse the args with the same package as the Keg-CLI, to ensure its consistent

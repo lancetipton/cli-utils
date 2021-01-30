@@ -1,3 +1,6 @@
+
 const constants = {}
 
-module.exports = constants
+module.exports = {
+  constants
+}
