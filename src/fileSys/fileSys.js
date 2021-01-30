@@ -13,9 +13,9 @@ const { throwError } = require('../error/throwError')
  */
 const limboify = (cb, ...args) => {
   return limbo(
-    new Promise((res, rej) => cb(...args, (err, success) => 
-      err? rej(err) : res(success || true) 
-    ))
+    new Promise((res, rej) =>
+      cb(...args, (err, success) => (err ? rej(err) : res(success || true)))
+    )
   )
 }
 
@@ -51,7 +51,7 @@ const mkDir = filePath => {
  *
  * @returns {Promise|boolean} - True if the file was written successfully
  */
-const writeFile = (filePath, data, format='utf8') => {
+const writeFile = (filePath, data, format = 'utf8') => {
   return limboify(fs.writeFile, filePath, data, format)
 }
 
@@ -64,11 +64,11 @@ const writeFile = (filePath, data, format='utf8') => {
  *
  * @returns {Promise|boolean} - True if the file was written successfully
  */
-const writeFileSync = (filePath, data, format='utf8') => {
+const writeFileSync = (filePath, data, format = 'utf8') => {
   return fs.writeFileSync(filePath, data, format)
 }
 
-const readDir = (dirPath) => {
+const readDir = dirPath => {
   return limboify(fs.readdir, dirPath)
 }
 
@@ -79,7 +79,7 @@ const readDir = (dirPath) => {
  *
  * @returns {Promise|boolean} - True if the file exists
  */
-const stat = (path) => {
+const stat = path => {
   return limboify(fs.stat, path)
 }
 
@@ -96,12 +96,17 @@ const stat = (path) => {
  *
  * @returns {Array} - Array of found file paths
  */
-const buildFoundArray = ({ allFound, recurCall, file, fromPath, opts={} }) => {
-  
-  const { exclude=[], full, include=[], recursive, type } = opts
+const buildFoundArray = ({
+  allFound,
+  recurCall,
+  file,
+  fromPath,
+  opts = {},
+}) => {
+  const { exclude = [], full, include = [], recursive, type } = opts
 
   // Filter out any folder matching the exclude
-  if(!file || exclude.indexOf(file) !== -1) return allFound
+  if (!file || exclude.indexOf(file) !== -1) return allFound
 
   // Get the full path of the file or folder
   const fullPath = path.join(fromPath, file)
@@ -114,16 +119,13 @@ const buildFoundArray = ({ allFound, recurCall, file, fromPath, opts={} }) => {
 
   // Check if found should be added to the array based on the passed in arguments
   // Check the for type match or no type
-  ;( !type ||
-    ( type === 'folder' && isDir ) ||
-    ( type !== 'folder' && !isDir )) &&
-    ( !include.length || include.indexOf(file) !== -1 ) &&
+  ;(!type || (type === 'folder' && isDir) || (type !== 'folder' && !isDir)) &&
+    (!include.length || include.indexOf(file) !== -1) &&
     allFound.push(found)
 
   return !isDir || !recursive || !isFunc(recurCall)
     ? allFound
     : recurCall(fullPath, opts, allFound)
-
 }
 
 /**
@@ -138,7 +140,7 @@ const buildFoundArray = ({ allFound, recurCall, file, fromPath, opts={} }) => {
  *
  * @returns {Promise|Array} - Array of found items
  */
-const getFolderContent = async (fromPath, opts={}, foundPaths=[]) => {
+const getFolderContent = async (fromPath, opts = {}, foundPaths = []) => {
   const [ err, allFiles ] = await readDir(fromPath)
   err && throwError(err)
 
@@ -153,7 +155,6 @@ const getFolderContent = async (fromPath, opts={}, foundPaths=[]) => {
       recurCall: getFolderContent,
     })
   }, Promise.resolve(foundPaths))
-
 }
 
 /**
@@ -168,15 +169,18 @@ const getFolderContent = async (fromPath, opts={}, foundPaths=[]) => {
  *
  * @returns {Promise|Array} - Array of found items
  */
-const getFolderContentSync = (fromPath, opts={}, foundPaths=[]) => {
-  return fs.readdirSync(fromPath)
-    .reduce((allFound, file) => buildFoundArray({
-      opts,
-      file,
-      fromPath,
-      allFound,
-      recurCall: getFolderContentSync,
-    }), foundPaths)
+const getFolderContentSync = (fromPath, opts = {}, foundPaths = []) => {
+  return fs.readdirSync(fromPath).reduce(
+    (allFound, file) =>
+      buildFoundArray({
+        opts,
+        file,
+        fromPath,
+        allFound,
+        recurCall: getFolderContentSync,
+      }),
+    foundPaths
+  )
 }
 
 /**
@@ -223,7 +227,7 @@ const getFolders = (fromPath, opts) => {
  *
  * @returns {Array} - All folders found in the path
  */
-const getFoldersSync = (fromPath, opts={}) => {
+const getFoldersSync = (fromPath, opts = {}) => {
   return getFolderContentSync(fromPath, { ...opts, type: 'folder' })
 }
 
@@ -271,7 +275,7 @@ const pathExistsSync = checkPath => fs.existsSync(checkPath)
  *
  * @returns {Promise|string} - Content of the file
  */
-const readFile = (filePath, format='utf8') => {
+const readFile = (filePath, format = 'utf8') => {
   return limboify(fs.readFile, filePath, format)
 }
 
@@ -283,8 +287,8 @@ const readFile = (filePath, format='utf8') => {
  *
  * @returns {Promise|string} - Content of the file
  */
-const readFileSync = (filePath, format='utf8') => {
-  return fs.readFileSync(filePath, format='utf8')
+const readFileSync = (filePath, format = 'utf8') => {
+  return fs.readFileSync(filePath, (format = 'utf8'))
 }
 
 /**
@@ -296,7 +300,7 @@ const readFileSync = (filePath, format='utf8') => {
  *
  * @returns {Object} - Contains the readStream and writeStream
  */
-const copyStream = (from, to, cb, format='utf8') => {
+const copyStream = (from, to, cb, format = 'utf8') => {
   const writeStream = fs.createWriteStream(to)
   const readStream = fs.createReadStream(from, { encoding: format })
   writeStream.on('finish', () => checkCall(cb))
@@ -348,7 +352,6 @@ const removeFile = file => limboify(fs.unlink, file)
  */
 const removeFileSync = file => fs.unlinkSync(filePath, callbackFunction)
 
-
 /**
  * Wraps require in a try catch so app doesn't throw when require is called inline
  * @param {string} folder - The path to the file to require
@@ -357,8 +360,7 @@ const removeFileSync = file => fs.unlinkSync(filePath, callbackFunction)
  *
  * @returns {Object} - Content of the required file
  */
-const requireFile = (folder='', file='', logError) => {
-
+const requireFile = (folder = '', file = '', logError) => {
   const location = path.join(folder, file)
 
   try {
@@ -370,7 +372,7 @@ const requireFile = (folder='', file='', logError) => {
   }
   catch (err) {
     logError &&
-      console.error(`requireFile error for path "${ location }"`, err.stack)
+      console.error(`requireFile error for path "${location}"`, err.stack)
 
     return {}
   }
@@ -382,7 +384,7 @@ const requireFile = (folder='', file='', logError) => {
  *
  * @return {string} - directory path that was ensured
  */
-const ensureDirSync = (dirPath='', logError) => {
+const ensureDirSync = (dirPath = '', logError) => {
   try {
     // make the directory if it doesn't exist
     !fs.existsSync(dirPath) && fs.mkdirSync(dirPath)
@@ -391,7 +393,7 @@ const ensureDirSync = (dirPath='', logError) => {
   }
   catch (err) {
     logError &&
-      console.error(`ensureDirSync error for path "${ dirPath }"`, err.stack)
+      console.error(`ensureDirSync error for path "${dirPath}"`, err.stack)
     return false
   }
 }
@@ -401,14 +403,14 @@ const ensureDirSync = (dirPath='', logError) => {
  * @param {string} from - file or directory path
  * @param {string} to - file or directory path (if 'from' is a file, 'to' cannot be a directory)
  * @param {boolean=} logError - If the command fails, should the app throw?
- * 
+ *
  * @returns {boolean} - whether the cmd is successful or not
  */
-const copySync = (from, to, logError=false) => {
+const copySync = (from, to, logError = false) => {
   try {
     fs.copySync(from, to)
     return true
-  } 
+  }
   catch (err) {
     logError &&
       console.error(`copySync error for path "${from} to ${to}"`, err.stack)
@@ -418,24 +420,22 @@ const copySync = (from, to, logError=false) => {
 
 /**
  * Deletes directory contents if the directory is not empty. If the directory does not exist, it is created
- * @param {string} path 
- * @param {boolean=} logError 
- * 
+ * @param {string} path
+ * @param {boolean=} logError
+ *
  * @returns {boolean} - whether the cmd is successful or not
  */
-const emptyDirSync = (path, logError=false) => {
+const emptyDirSync = (path, logError = false) => {
   try {
     fs.emptyDirSync(path)
     return true
-  } 
+  }
   catch (err) {
     logError &&
       console.error(`emptyDirSync error for path "${path}"`, err.stack)
-      return false
+    return false
   }
 }
-
-
 
 module.exports = {
   fileSys: {
@@ -463,5 +463,5 @@ module.exports = {
     stat,
     writeFile,
     writeFileSync,
-  }
+  },
 }

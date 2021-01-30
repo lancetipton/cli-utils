@@ -2,17 +2,18 @@ const { spawnCmd } = require('@keg-hub/spawn-cmd')
 const { isArr } = require('@keg-hub/jsutils')
 const { tapRoot } = require('../tapRoot')
 
-const ensureArray = data => isArr(data) ? data : data.split(' ')
+const ensureArray = data => (isArr(data) ? data : data.split(' '))
 
-const runCmd = (cmd, args, env={}) => {
+const runCmd = (cmd, args, env = {}) => {
   return spawnCmd(cmd, {
     args,
     options: { env: { ...process.env, ...env } },
-    cwd: tapRoot
+    cwd: tapRoot,
   })
 }
 
-const cmdShortcut = (name, args, ...opts) => runCmd(name, ensureArray(args), ...opts)
+const cmdShortcut = (name, args, ...opts) =>
+  runCmd(name, ensureArray(args), ...opts)
 
 const npm = (...args) => cmdShortcut(`npm`, ...args)
 const npx = (...args) => cmdShortcut(`npx`, ...args)
@@ -21,7 +22,7 @@ const docker = (...args) => cmdShortcut(`docker`, ...args)
 const dockerComp = (...args) => cmdShortcut(`docker-compose`, ...args)
 
 /**
- * 
+ *
  * @param {String} containerName - name of container to run command within
  * @param {Array<string>} args - docker exec args
  * @param  {...any} opts - docker exec opts
@@ -42,6 +43,6 @@ module.exports = {
     spawnCmd,
     docker,
     dockerComp,
-    dockerExec
-  }
+    dockerExec,
+  },
 }

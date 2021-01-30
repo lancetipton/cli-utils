@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { getTaskDefinitions } = require('./tasks')
-const { argsParse } = require("@keg-hub/args-parse")
+const { argsParse } = require('@keg-hub/args-parse')
 const { findTask } = require('./task/findTask')
 const { throwExitError } = require('./error/throwExitError')
 const { getKegGlobalConfig } = require('./task/getKegGlobalConfig')
@@ -40,7 +40,7 @@ const runTask = async globalConfig => {
 
     return response
   }
-  catch(err){
+  catch (err) {
     throwExitError(err)
   }
 }

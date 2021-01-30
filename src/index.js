@@ -10,7 +10,7 @@ const {
   getKegGlobalConfig,
   findTask,
   sharedOptions,
-  setSharedOptions
+  setSharedOptions,
 } = require('./task')
 
 module.exports = {
@@ -18,6 +18,7 @@ module.exports = {
   constants,
   getKegGlobalConfig,
   findTask,
+  fileSys,
   error,
   Logger,
   registerTasks,
