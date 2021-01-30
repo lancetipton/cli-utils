@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Utility methods for writing Custom Tasks consumed by the Keg-CLI",
   "main": "index.js",
-  "repository": "https://github.com/lancetipton/cli-uilts",
+  "repository": "https://github.com/lancetipton/keg-cli-uilts",
   "author": "Lance Tipton",
   "license": "MIT",
   "private": false,
@@ -20,8 +20,10 @@
     "clean:full": "yarn clean && yarn install",
     "clean": "yarn clean:lock && yarn cache clean && rimraf node_modules && npm cache clean --force",
     "clean:lock": "rimraf ./yarn.lock && rimraf ./package.lock",
-    "format": "exit 0",
-    "test": "NODE_ENV=test jest --no-cache --verbose"
+    "format:eslint": "eslint --config ./configs/eslintrc.config.js . --fix --quiet",
+    "format:prettier": "prettier --config ./configs/prettier.config.js --ignore-path .eslintignore --write '**/*.{js,jsx}'",
+    "format": "yarn format:prettier && yarn format:eslint",
+    "test": "NODE_ENV=test jest --no-cache --verbose --config=./configs/jest.config.js"
   },
   "dependencies": {
     "app-root-path": "3.0.0",
@@ -33,7 +35,11 @@
     "fs-extra": "9.0.1"
   },
   "devDependencies": {
+    "eslint": "7.4.0",
+    "eslint-plugin-jest": "23.18.0",
     "jest": "24.8.0",
-    "jest-cli": "24.8.0"
+    "jest-cli": "24.8.0",
+    "prettier": "2.0.5",
+    "rimraf": "3.0.2"
   }
 }
