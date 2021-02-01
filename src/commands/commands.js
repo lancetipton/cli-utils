@@ -1,6 +1,6 @@
-const { spawnCmd } = require('@keg-hub/spawn-cmd')
+const { appRoot } = require('../appRoot')
 const { isArr } = require('@keg-hub/jsutils')
-const { tapRoot } = require('../tapRoot')
+const { spawnCmd } = require('@keg-hub/spawn-cmd')
 
 const ensureArray = data => (isArr(data) ? data : data.split(' '))
 
@@ -8,7 +8,7 @@ const runCmd = (cmd, args, env = {}) => {
   return spawnCmd(cmd, {
     args,
     options: { env: { ...process.env, ...env } },
-    cwd: tapRoot,
+    cwd: appRoot,
   })
 }
 
@@ -27,7 +27,7 @@ const dockerComp = (...args) => cmdShortcut(`docker-compose`, ...args)
  * @param {Array<string>} args - docker exec args
  * @param  {...any} opts - docker exec opts
  * @example
- * dockerExec('keg-herkin', 'npx qawolf create localhost:3000 foo')
+ * dockerExec('<container-name>', 'yarn install')
  */
 const dockerExec = (containerName, args, ...opts) => {
   const allArgs = [ 'exec', '-it', containerName, ...ensureArray(args) ]
