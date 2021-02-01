@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 const path = require('path')
 const { checkCall, limbo, isFunc } = require('@keg-hub/jsutils')
-const { throwError } = require('../error/throwError')
+const { throwError } = require('../error')
 
 /**
  * Wraps a method with a callback into a promise
@@ -203,7 +203,7 @@ const getFiles = (fromPath, opts) => {
  * Gets all folders in a directory path
  * @function
  * @param {string} fromPath - Path to find the folders in
- * @param {Object} [opts={}] - Options for filtering the found contnet
+ * @param {Object} [opts={}] - Options for filtering the found content
  * @param {boolean} opts.full - Should return the full path
  * @param {string} opts.type - Type of content to return (folder || file)
  * @param {Array} opts.exclude - File or folder to exclude
@@ -438,30 +438,28 @@ const emptyDirSync = (path, logError = false) => {
 }
 
 module.exports = {
-  fileSys: {
-    copyFile,
-    copySync,
-    copyFileSync,
-    copyStream,
-    emptyDirSync,
-    ensureDirSync,
-    getFiles,
-    getFilesSync,
-    getFolders,
-    getFoldersSync,
-    getFolderContent,
-    getFolderContentSync,
-    mkDir,
-    movePath,
-    pathExists,
-    pathExistsSync,
-    readFile,
-    readFileSync,
-    removeFile,
-    removeFileSync,
-    requireFile,
-    stat,
-    writeFile,
-    writeFileSync,
-  },
+  copyFile,
+  copySync,
+  copyFileSync,
+  copyStream,
+  emptyDirSync,
+  ensureDirSync,
+  getFiles,
+  getFilesSync,
+  getFolders,
+  getFoldersSync,
+  getFolderContent,
+  getFolderContentSync,
+  mkDir,
+  movePath,
+  pathExists,
+  pathExistsSync,
+  readFile,
+  readFileSync,
+  removeFile,
+  removeFileSync,
+  requireFile,
+  stat,
+  writeFile,
+  writeFileSync,
 }

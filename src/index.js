@@ -1,9 +1,9 @@
-const { error } = require('./error')
+const error = require('./error')
+const fileSys = require('./fileSys')
+const commands = require('./commands')
 const { Logger } = require('./logger')
 const { runTask } = require('./runTask')
 const { tapRoot } = require('./tapRoot')
-const { fileSys } = require('./fileSys')
-const { commands } = require('./commands')
 const { constants } = require('./constants')
 const { registerTasks } = require('./tasks/tasks')
 const {

@@ -63,10 +63,8 @@ const throwTaskFailed = () => {
 }
 
 module.exports = {
-  error: {
-    throwError,
-    throwExitError,
-    throwNoAction,
-    throwTaskFailed,
-  },
+  throwError,
+  throwExitError,
+  throwNoAction,
+  throwTaskFailed,
 }

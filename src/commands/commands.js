@@ -35,14 +35,12 @@ const dockerExec = (containerName, args, ...opts) => {
 }
 
 module.exports = {
-  commands: {
-    npm,
-    npx,
-    runCmd,
-    yarn,
-    spawnCmd,
-    docker,
-    dockerComp,
-    dockerExec,
-  },
+  npm,
+  npx,
+  runCmd,
+  yarn,
+  spawnCmd,
+  docker,
+  dockerComp,
+  dockerExec,
 }

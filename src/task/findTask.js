@@ -1,5 +1,5 @@
 const { noOpArr, isArr } = require('@keg-hub/jsutils')
-const { throwExitError } = require('../error/throwExitError')
+const { throwExitError } = require('../error')
 
 /**
  * Maps task alias to a task name, relative to the options
