@@ -1,10 +1,10 @@
 const { appRoot } = require('../appRoot')
-const { isArr } = require('@keg-hub/jsutils')
+const { isArr, noOpObj, noPropArr } = require('@keg-hub/jsutils')
 const { spawnCmd } = require('@keg-hub/spawn-cmd')
 
 const ensureArray = data => (isArr(data) ? data : data.split(' '))
 
-const runCmd = (cmd, args, env = {}) => {
+const runCmd = (cmd, args=noPropArr, env=noOpObj) => {
   return spawnCmd(cmd, {
     args,
     options: { env: { ...process.env, ...env } },

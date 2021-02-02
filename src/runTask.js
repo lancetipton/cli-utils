@@ -28,8 +28,8 @@ const runTask = async (customTasks, customDefParams) => {
     // Parse the args with the same package as the Keg-CLI, to ensure its consistent
     const params = await argsParse({
       task,
-      args: [...args],
-      params: deepMerge(defParams, customDefParams),
+      args: [...options],
+      params: deepMerge(defParams, customDefParams)
     })
 
     // Call the task action, and pass in args matching the same as the Keg-CLI args
