@@ -14,7 +14,7 @@ const {
 } = require('./task')
 
 module.exports = {
-  commands,
+  ...commands,
   constants,
   getKegGlobalConfig,
   findTask,

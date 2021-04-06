@@ -10,7 +10,7 @@ const { getKegGlobalConfig } = require('./task/getKegGlobalConfig')
 const defParams = { env: process.env.NODE_ENV || 'development' }
 
 /**
- * Runs a local task matching the Keg-CLI task definitio
+ * Runs a local task matching the Keg-CLI task definition
  * This allows the tasks to be injected into the Keg-CLI when installed
  * @param {Object} customTasks - Custom tasks to add to the task cache
  * @param {Object} customDefParams - Default params added to all tasks

@@ -1,1 +1,4 @@
-module.exports = require('./commands')
+module.exports = {
+  ...require('./arguments'),
+  ...require('./commands'),
+}
