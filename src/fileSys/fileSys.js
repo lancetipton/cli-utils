@@ -4,6 +4,16 @@ const { checkCall, limbo, isFunc } = require('@keg-hub/jsutils')
 const { throwError } = require('../error')
 
 /**
+ * Default files that are ignored when searching a directory tree of the filesystem
+ * @Array
+ */
+const defaultFileExclude = [
+  `.DS_Store`,
+  `.gitignore`,
+  `.gitkeep`,
+]
+
+/**
  * Wraps a method with a callback into a promise
  * @function
  * @param {*} cb - method to wrap in a promise
@@ -103,7 +113,7 @@ const buildFoundArray = ({
   fromPath,
   opts = {},
 }) => {
-  const { exclude = [], full, include = [], recursive, type } = opts
+  const { exclude = defaultFileExclude, full, include = [], recursive, type } = opts
 
   // Filter out any folder matching the exclude
   if (!file || exclude.indexOf(file) !== -1) return allFound
@@ -132,7 +142,7 @@ const buildFoundArray = ({
  * Gets the content of a folder based on passed in options
  * @function
  * @param {string} fromPath - Path to get the content from
- * @param {Object} [opts={}] - Options for filtering the found contnet
+ * @param {Object} [opts={}] - Options for filtering the found content
  * @param {boolean} opts.full - Should return the full path
  * @param {string} opts.type - Type of content to return (folder || file)
  * @param {Array} opts.exclude - File or folder to exclude
@@ -161,7 +171,7 @@ const getFolderContent = async (fromPath, opts = {}, foundPaths = []) => {
  * Gets the content of a folder based on passed in options synchronously
  * @function
  * @param {string} fromPath - Path to get the content from
- * @param {Object} [opts={}] - Options for filtering the found contnet
+ * @param {Object} [opts={}] - Options for filtering the found content
  * @param {boolean} opts.full - Should return the full path
  * @param {string} opts.type - Type of content to return (folder || file)
  * @param {Array} opts.exclude - File or folder to exclude
@@ -187,7 +197,7 @@ const getFolderContentSync = (fromPath, opts = {}, foundPaths = []) => {
  * Gets all files in a directory path
  * @function
  * @param {string} fromPath - Path to find the folders in
- * @param {Object} [opts={}] - Options for filtering the found contnet
+ * @param {Object} [opts={}] - Options for filtering the found content
  * @param {boolean} opts.full - Should return the full path
  * @param {string} opts.type - Type of content to return (folder || file)
  * @param {Array} opts.exclude - File or folder to exclude
@@ -219,7 +229,7 @@ const getFolders = (fromPath, opts) => {
  * Gets all folders in a directory path synchronously
  * @function
  * @param {string} fromPath - Path to find the folders in
- * @param {Object} [opts={}] - Options for filtering the found contnet
+ * @param {Object} [opts={}] - Options for filtering the found content
  * @param {boolean} opts.full - Should return the full path
  * @param {string} opts.type - Type of content to return (folder || file)
  * @param {Array} opts.exclude - File or folder to exclude
@@ -235,7 +245,7 @@ const getFoldersSync = (fromPath, opts = {}) => {
  * Gets all files in a directory path synchronously
  * @function
  * @param {string} fromPath - Path to find the files in
- * @param {Object} [opts={}] - Options for filtering the found contnet
+ * @param {Object} [opts={}] - Options for filtering the found content
  * @param {boolean} opts.full - Should return the full path
  * @param {string} opts.type - Type of content to return (folder || file)
  * @param {Array} opts.exclude - File or folder to exclude

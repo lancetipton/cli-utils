@@ -14,7 +14,8 @@ const { throwExitError } = require('../error')
  * @returns {Object} - Found task alias
  */
 const getTaskAlias = (task, tasks) => {
-  return Object.entries(tasks).reduce((foundTask, [ name, definition ]) => {
+  return Object.entries(tasks)
+  .reduce((foundTask, [ name, definition ]) => {
     return !foundTask && isArr(definition.alias)
       ? definition.alias.includes(task)
           ? definition
@@ -57,7 +58,8 @@ const loopTasks = (task, options) => {
  *
  * @returns {void}
  */
-const findTask = (tasks, options = noOpArr) => {
+const findTask = (tasks, opts = noOpArr) => {
+  const options = [...opts]
   const taskName = options.shift()
   const task = tasks[taskName]
   const foundTask = task && loopTasks(task, options)

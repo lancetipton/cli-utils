@@ -1,4 +1,4 @@
-const { Logger } = require('..//logger/logger')
+const { Logger } = require('../logger/logger')
 
 /*
  * Helper to log an error message

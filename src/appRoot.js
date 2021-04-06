@@ -17,7 +17,7 @@ const getRootParentModule = parentModule => {
 }
 
 /**
- * Gets the root apps path, even when the keg-cli-utils is symlinked
+ * Gets the root apps path, even when the keg-cli-utils is sym-linked
  * @function
  * @private
  *

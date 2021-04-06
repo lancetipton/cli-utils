@@ -6,21 +6,31 @@ const {
   pickKeys,
 } = require('@keg-hub/jsutils')
 
-let __SHARED_OPTS = {}
+/**
+ * Cache holder for options shared between tasks
+ * @Object
+ */
+let __SHARED_OPTS = {
+  all: {},
+  groups: {}
+}
 
 /**
  * Sets the shared options object, to allow reusing defined task options
  * @function
  * @export
  * @param {Object} options - Task options that can be shared across tasks
+ * @param {boolean} groups - Should the options be separated by group name
  *
  * @example
  * sharedOptions({ ...custom task options })
  *
  * @returns {void}
  */
-const setSharedOptions = (options = noOpObj) => {
-  Object.assign(__SHARED_OPTS, options)
+const setSharedOptions = (options = noOpObj, groups) => {
+  groups
+    ? Object.assign(__SHARED_OPTS.groups, options)
+    : Object.assign(__SHARED_OPTS.all, options)
 }
 
 /**
@@ -30,14 +40,21 @@ const setSharedOptions = (options = noOpObj) => {
  * @param {string} action - Name of the task action getting the options
  * @param {Object} taskOps - Task options defined in the task
  * @param {Array} include - Filter to include shared options by name
+ * @param {string} groupName - Name of the group to get the shared options from
  *
  * @example
  * sharedOptions('start') // Returns all shared options
  *
  * @returns {Object} - Merged task options and shared options
  */
-const sharedOptions = (action, taskOps = noOpObj, include = noOpArr) => {
-  const addOpts = isArr(include) ? pickKeys(__SHARED_OPTS, include) : options
+const sharedOptions = (action, taskOps = noOpObj, include = noOpArr, groupName) => {
+  const shared = groupName
+    ? deepMerge(__SHARED_OPTS.all, __SHARED_OPTS.groups[groupName])
+    : __SHARED_OPTS.all
+
+  const addOpts = isArr(include)
+    ? pickKeys(shared, include)
+    : deepMerge(shared, options)
 
   // taskOps is merged twice to ensure key order, then priority
   return deepMerge(taskOps, addOpts, taskOps)
