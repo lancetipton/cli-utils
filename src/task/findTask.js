@@ -61,7 +61,7 @@ const loopTasks = (task, options) => {
 const findTask = (tasks, opts = noOpArr) => {
   const options = [...opts]
   const taskName = options.shift()
-  const task = tasks[taskName]
+  const task = tasks[taskName] || getTaskAlias(taskName, tasks)
   const foundTask = task && loopTasks(task, options)
 
   return foundTask && foundTask.task
