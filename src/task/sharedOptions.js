@@ -49,12 +49,12 @@ const setSharedOptions = (options = noOpObj, groups) => {
  */
 const sharedOptions = (action, taskOps = noOpObj, include = noOpArr, groupName) => {
   const shared = groupName
-    ? deepMerge(__SHARED_OPTS.all, __SHARED_OPTS.groups[groupName])
+    ? __SHARED_OPTS.groups[groupName]
     : __SHARED_OPTS.all
 
   const addOpts = isArr(include)
     ? pickKeys(shared, include)
-    : deepMerge(shared, options)
+    : shared
 
   // taskOps is merged twice to ensure key order, then priority
   return deepMerge(taskOps, addOpts, taskOps)

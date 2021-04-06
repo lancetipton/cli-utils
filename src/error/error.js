@@ -1,4 +1,5 @@
 const { Logger } = require('../logger/logger')
+const { noOpObj } = require('@keg-hub/jsutils')
 
 /*
  * Helper to log an error message
@@ -20,9 +21,11 @@ const throwError = (...message) => {
  *
  * @returns {void}
  */
-const throwExitError = err => {
+const throwExitError = (err=noOpObj) => {
   Logger.header(`Task Error:`)
-  Logger.error(`  ${err.stack}`)
+  err.stack
+    ? Logger.error(`  ${err.stack}`)
+    : Logger.error(`  An unknown error occurred!`)
   Logger.empty()
 
   process.exit(1)
@@ -35,7 +38,7 @@ const throwExitError = err => {
  * @param {Object} task - Task definition that's missing an action property
  * @returns {void}
  */
-const throwNoAction = task => {
+const throwNoAction = (task=noOpObj) => {
   Logger.error(
     `\n Task '${task.name}' requires a valid sub-task. No action exists for this task!`
   )
