@@ -1,4 +1,4 @@
-const { appRoot } = require('../appRoot')
+const { getAppRoot } = require('../appRoot')
 const { isObj } = require('@keg-hub/jsutils')
 const { getFolders, requireFile } = require('../fileSys')
 
@@ -46,6 +46,7 @@ const setTaskFolder = folderName => __TASK_FOLDER = folderName
  * @returns {Object} Found tasks
  */
 const searchForTasks = async () => {
+  const appRoot = getAppRoot()
   const [ taskFolder ] = await getFolders(appRoot, { include: [__TASK_FOLDER], full: true })
   return taskFolder && requireFile(taskFolder, 'index.js', true)
 }
